@@ -12,7 +12,16 @@ function OfferList() {
 	const columnDefs = [
 		{ headerName: 'Offer Id', field: 'offerid' },
 		{ headerName: 'Name', field: 'name' },
-		{ headerName: 'Affiliate Status', field: 'affiliateStatus'},
+		{ headerName: 'Affiliate Status',
+			field: 'affiliateStatus',
+			cellStyle: (params: any) => {
+				if (params.value === "FAILED") {
+					return { backgroundColor: "red" };
+				} else {
+					return { backgroundColor: "green" };
+				}
+			}
+		},
 		{ headerName: 'Redirects', field: 'redirects', filter: 'agNumberColumnFilter'},
 		{ headerName: 'Os Allowed', field: 'os_allow'},
 		{ headerName: 'Os Blocked', field: 'os_block'},
