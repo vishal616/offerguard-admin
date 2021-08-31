@@ -10,8 +10,8 @@ function OfferList() {
 	const [rowData, setRowData] = useState([]);
 	const [modalData, setModalData] = useState(null);
 	const columnDefs = [
-		{ headerName: 'Offer Id', field: 'offerid' },
-		{ headerName: 'Name', field: 'name' },
+		{ headerName: 'Offer Id', field: 'offerid', floatingFilter: true },
+		{ headerName: 'Name', field: 'name', floatingFilter: true },
 		{ headerName: 'Affiliate Status',
 			field: 'affiliateStatus',
 			cellStyle: (params: any) => {
@@ -20,28 +20,29 @@ function OfferList() {
 				} else {
 					return { backgroundColor: "green" };
 				}
-			}
+			},
+			floatingFilter: true
 		},
-		{ headerName: 'Redirects', field: 'redirects', filter: 'agNumberColumnFilter'},
-		{ headerName: 'Os Allowed', field: 'os_allow'},
-		{ headerName: 'Os Blocked', field: 'os_block'},
-		{ headerName: 'Country Allowed', field: 'country_allow'},
-		{ headerName: 'Country Blocked', field: 'country_block'},
-		{ headerName: 'Click Url', field: 'click_url'},
-		{ headerName: 'Impression Url', field: 'impression_url'},
-		{ headerName: 'Category', field: 'category'},
-		{ headerName: 'Currency', field: 'currency'},
-		{ headerName: 'Price', field: 'price', filter: 'agNumberColumnFilter'},
-		{ headerName: 'Model', field: 'model'},
-		{ headerName: 'Start Date', field: 'date_start'},
-		{ headerName: 'End Date', field: 'end_start'},
-		{ headerName: 'Preview Url', field: 'preview_url'},
-		{ headerName: 'City Allowed', field: 'city_allow'},
-		{ headerName: 'City Blocked', field: 'city_block'},
-		{ headerName: 'Device Allowed', field: 'device_allow'},
-		{ headerName: 'Device Blocked', field: 'device_block'},
-		{ headerName: 'ISP Allowed', field: 'isp_allow'},
-		{ headerName: 'ISP Blocked', field: 'isp_block'}
+		{ headerName: 'Redirects', field: 'redirects', filter: 'agNumberColumnFilter', floatingFilter: true},
+		{ headerName: 'Os Allowed', field: 'os_allow', floatingFilter: true},
+		{ headerName: 'Os Blocked', field: 'os_block', floatingFilter: true},
+		{ headerName: 'Country Allowed', field: 'country_allow', floatingFilter: true},
+		{ headerName: 'Country Blocked', field: 'country_block', floatingFilter: true},
+		{ headerName: 'Click Url', field: 'click_url', floatingFilter: true},
+		{ headerName: 'Impression Url', field: 'impression_url', floatingFilter: true},
+		{ headerName: 'Category', field: 'category', floatingFilter: true},
+		{ headerName: 'Currency', field: 'currency', floatingFilter: true},
+		{ headerName: 'Price', field: 'price', filter: 'agNumberColumnFilter', floatingFilter: true},
+		{ headerName: 'Model', field: 'model', floatingFilter: true},
+		{ headerName: 'Start Date', field: 'date_start', floatingFilter: true},
+		{ headerName: 'End Date', field: 'end_start', floatingFilter: true},
+		{ headerName: 'Preview Url', field: 'preview_url', floatingFilter: true},
+		{ headerName: 'City Allowed', field: 'city_allow', floatingFilter: true},
+		{ headerName: 'City Blocked', field: 'city_block', floatingFilter: true},
+		{ headerName: 'Device Allowed', field: 'device_allow', floatingFilter: true},
+		{ headerName: 'Device Blocked', field: 'device_block', floatingFilter: true},
+		{ headerName: 'ISP Allowed', field: 'isp_allow', floatingFilter: true},
+		{ headerName: 'ISP Blocked', field: 'isp_block', floatingFilter: true}
 	];
 
 	useEffect( () => {
@@ -62,14 +63,13 @@ function OfferList() {
 					rowData={rowData}
 					enableCellTextSelection={true}
 					enableBrowserTooltips={true}
-					floatingFilter={true}
 					animateRows={true}
 					defaultColDef={{sortable: true, filter: true, resizable: true}}
 					onCellDoubleClicked={openOfferModal}
 				></AgGridReact>
 			</div>
 			<OfferModal
-				data = {modalData}
+				data={modalData}
 			></OfferModal>
 		</div>
 	);
