@@ -4,9 +4,11 @@ import {AgGridReact} from "ag-grid-react";
 import './offer-list.css'
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import OfferModal from "../offer-modal/offer-modal";
 
 function OfferList() {
 	const [rowData, setRowData] = useState([]);
+	const [modalData, setModalData] = useState(null);
 	const columnDefs = [
 		{ headerName: 'Offer Id', field: 'offerid' },
 		{ headerName: 'Name', field: 'name' },
@@ -36,12 +38,11 @@ function OfferList() {
 	useEffect( () => {
 		OfferService.getAllOffers().then(({data}) => {
 			setRowData(data);
-
 		})
 	}, []);
 
 	const openOfferModal = (offer: any) => {
-		console.log(offer);
+		setModalData(offer.data);
 	};
 
 	return (
@@ -58,6 +59,9 @@ function OfferList() {
 					onCellDoubleClicked={openOfferModal}
 				></AgGridReact>
 			</div>
+			<OfferModal
+				data = {modalData}
+			></OfferModal>
 		</div>
 	);
 }
