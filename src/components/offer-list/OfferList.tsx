@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {OfferService} from "../../services/offerService";
 import {AgGridReact} from "ag-grid-react";
 import './offer-list.css'
