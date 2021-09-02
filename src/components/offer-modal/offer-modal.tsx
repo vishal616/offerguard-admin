@@ -10,7 +10,9 @@ function OfferModal(props: any) {
 		name: '',
 		country: '',
 		id: '',
-		os: ''
+		os: '',
+		mobileMarketingPlatforms: '',
+		redirects: ''
 	});
 
 	useEffect(() => {
@@ -22,7 +24,9 @@ function OfferModal(props: any) {
 					name: props.data.name,
 					id: props.data.offerid,
 					os: props.data.os_allow,
-					country: props.data.country_allow
+					country: props.data.country_allow,
+					redirects: props.data.redirects,
+					mobileMarketingPlatforms: props.data.mobileMarketingPlatforms
 				});
 				setRedirectUrls(urls);
 			});
@@ -40,6 +44,8 @@ function OfferModal(props: any) {
 				<div><strong>Name : </strong>{offer.name}</div>
 				<div><strong>Country : </strong>{offer.country}</div>
 				<div><strong>Os : </strong>{offer.os}</div>
+				<div><strong>Redirects : </strong>{offer.redirects}</div>
+				<div><strong>Mobile Marketing Platforms : </strong>{offer.mobileMarketingPlatforms.length === 0 ? 'Could not find the matches' : offer.mobileMarketingPlatforms }</div>
 				<h4>Urls</h4>
 				{
 					redirectUrls.map((url, index) => {
@@ -56,6 +62,8 @@ export interface Offer {
 	id: string;
 	country: string;
 	os: string;
+	redirects: string;
+	mobileMarketingPlatforms: string;
 }
 
 export default OfferModal;

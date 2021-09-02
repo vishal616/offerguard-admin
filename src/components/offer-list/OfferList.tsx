@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {OfferService} from "../../services/offerService";
 import {AgGridReact} from "ag-grid-react";
 import './offer-list.css'
@@ -24,6 +24,7 @@ function OfferList() {
 			floatingFilter: true
 		},
 		{ headerName: 'Redirects', field: 'redirects', filter: 'agNumberColumnFilter', floatingFilter: true},
+		{ headerName: 'Mobile Marketing Platform', field: 'mobileMarketingPlatforms', floatingFilter: true},
 		{ headerName: 'Os Allowed', field: 'os_allow', floatingFilter: true},
 		{ headerName: 'Os Blocked', field: 'os_block', floatingFilter: true},
 		{ headerName: 'Country Allowed', field: 'country_allow', floatingFilter: true},
