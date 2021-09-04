@@ -6,11 +6,28 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import OfferModal from "../offer-modal/offer-modal";
 import FallBack from "../fallback/FallBack";
+import ManualOfferStatusRenderer from './ManualOfferStatusRenderer';
 
 function OfferList() {
 	const [rowData, setRowData] = useState([]);
 	const [modalData, setModalData] = useState(null);
 	const [showLoader, setShowLoader] = useState(true);
+
+	const checkAndUpdateOfferStatus = (offerId: string) => {
+		setShowLoader(true);
+		OfferService.checkAndUpdateOfferStatus(offerId).then((response) => {
+			const updatedOffer = response.data;
+			const offerList = rowData.map((offer: any) => {
+				if (offer.offerid === updatedOffer.offerid) {
+					return updatedOffer;
+				}
+				return offer;
+			});
+			prepareRows(offerList);
+
+		});
+	}
+
 	const columnDefs = [
 		{ headerName: 'Offer Id', field: 'offerid', floatingFilter: true },
 		{ headerName: 'Name', field: 'name', floatingFilter: true },
@@ -47,22 +64,41 @@ function OfferList() {
 		{ headerName: 'Device Allowed', field: 'device_allow', floatingFilter: true},
 		{ headerName: 'Device Blocked', field: 'device_block', floatingFilter: true},
 		{ headerName: 'ISP Allowed', field: 'isp_allow', floatingFilter: true},
-		{ headerName: 'ISP Blocked', field: 'isp_block', floatingFilter: true}
+		{ headerName: 'ISP Blocked', field: 'isp_block', floatingFilter: true},
+		{ headerName: 'Manual Offer Check',
+			field: 'offerid',
+			cellRenderer: 'manualOfferStatusRenderer',
+			cellRendererParams: {
+				checkAndUpdateOfferStatus: checkAndUpdateOfferStatus
+			}
+		}
 	];
 
+	const frameworkComponents = {
+		manualOfferStatusRenderer: ManualOfferStatusRenderer
+	}
+
 	useEffect( () => {
-		OfferService.getAllOffers().then(({data}) => {
-			data = data.map((offer: any) => {
-				if(!offer.affiliateStatus) {
-					offer.affiliateStatus = "PENDING";
-					return offer;
-				}
-				return offer;
-			});
-			setRowData(data);
-			setShowLoader(false);
-		})
+		getAllOffers();
 	}, []);
+
+	const getAllOffers = () => {
+		OfferService.getAllOffers().then(({data}) => {
+			prepareRows(data);
+		});
+	}
+
+	const prepareRows = (data: any) => {
+		data = data.map((offer: any) => {
+			if(!offer.affiliateStatus) {
+				offer.affiliateStatus = "PENDING";
+				return offer;
+			}
+			return offer;
+		});
+		setRowData(data);
+		setShowLoader(false);
+	}
 
 	const openOfferModal = (offer: any) => {
 		setModalData(offer.data);
@@ -82,6 +118,7 @@ function OfferList() {
 					animateRows={true}
 					defaultColDef={{sortable: true, filter: true, resizable: true}}
 					onCellDoubleClicked={openOfferModal}
+					frameworkComponents={frameworkComponents}
 				></AgGridReact>
 			</div>
 			<OfferModal
