@@ -7,6 +7,8 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import OfferModal from "../offer-modal/offer-modal";
 import FallBack from "../fallback/FallBack";
 import ManualOfferStatusRenderer from './ManualOfferStatusRenderer';
+import {toast} from "react-toastify";
+import ToastInjector from "../toast/ToastInjector";
 
 function OfferList() {
 	const [rowData, setRowData] = useState([]);
@@ -16,6 +18,9 @@ function OfferList() {
 	const checkAndUpdateOfferStatus = (offerId: string) => {
 		setShowLoader(true);
 		OfferService.checkAndUpdateOfferStatus(offerId).then((response) => {
+			if(response.status !== 200) {
+				toast.error("Something went wrong while updating offer status");
+			}
 			const updatedOffer = response.data;
 			const offerList = rowData.map((offer: any) => {
 				if (offer.offerid === updatedOffer.offerid) {
@@ -24,7 +29,7 @@ function OfferList() {
 				return offer;
 			});
 			prepareRows(offerList);
-
+			toast.success("Offer Status updated successfully");
 		});
 	}
 
@@ -122,6 +127,7 @@ function OfferList() {
 			<OfferModal
 				data={modalData}
 			></OfferModal>
+			<ToastInjector/>
 		</div>
 	);
 }
