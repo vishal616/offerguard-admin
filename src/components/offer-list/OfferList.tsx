@@ -78,15 +78,13 @@ function OfferList() {
 		manualOfferStatusRenderer: ManualOfferStatusRenderer
 	}
 
-	useEffect( () => {
-		getAllOffers();
-	}, []);
-
 	const getAllOffers = () => {
 		OfferService.getAllOffers().then(({data}) => {
 			prepareRows(data);
 		});
 	}
+
+	useEffect( getAllOffers, []);
 
 	const prepareRows = (data: any) => {
 		data = data.map((offer: any) => {
