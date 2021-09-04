@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {OfferService} from "../../services/offerService";
 import {AgGridReact} from "ag-grid-react";
-import './offer-list.css'
+import './offer-list.css';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import OfferModal from "../offer-modal/offer-modal";
+import FallBack from "../fallback/FallBack";
 
 function OfferList() {
 	const [rowData, setRowData] = useState([]);
 	const [modalData, setModalData] = useState(null);
+	const [showLoader, setShowLoader] = useState(true);
 	const columnDefs = [
 		{ headerName: 'Offer Id', field: 'offerid', floatingFilter: true },
 		{ headerName: 'Name', field: 'name', floatingFilter: true },
@@ -58,6 +60,7 @@ function OfferList() {
 				return offer;
 			});
 			setRowData(data);
+			setShowLoader(false);
 		})
 	}, []);
 
@@ -67,7 +70,10 @@ function OfferList() {
 
 	return (
 		<div className="offers">
-			<div className="ag-theme-alpine offer-list">
+			<FallBack
+				showLoader={showLoader}
+			/>
+			<div className="ag-theme-alpine offer-list" style={!showLoader ? {display: 'block'} : {display: 'none'}}>
 				<AgGridReact
 					columnDefs={columnDefs}
 					rowData={rowData}

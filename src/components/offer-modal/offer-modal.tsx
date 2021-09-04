@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import ReactModal from 'react-modal';
 import {RedirectUrlService} from "../../services/RedirectUrlService";
 import './offer-modal.css';
+import FallBack from "../fallback/FallBack";
 
 function OfferModal(props: any) {
 	const [open, setOpen] = useState(false);
 	const [redirectUrls, setRedirectUrls] = useState([]);
+	const [showLoader, setShowLoader] = useState(false);
 	const [offer, setOffer] = useState<Offer>({
 		name: '',
 		country: '',
@@ -18,7 +20,7 @@ function OfferModal(props: any) {
 
 	useEffect(() => {
 		if(props.data) {
-			setOpen(true);
+			setShowLoader(true);
 			RedirectUrlService.getAllRedirectUrlsForOffer(props.data.offerid).then(({data}) => {
 				const urls = data.map((data: any) => data.url);
 				setOffer({
@@ -31,12 +33,15 @@ function OfferModal(props: any) {
 					affiliateStatus: props.data.affiliateStatus
 				});
 				setRedirectUrls(urls);
+				setShowLoader(false);
+				setOpen(true);
 			});
 		}
 	},[props]);
 
 	return (
 		<div className="offer-modal">
+			<FallBack showLoader={showLoader}/>
 			<ReactModal
 				isOpen={open}
 			>
