@@ -1,7 +1,7 @@
 import React from 'react';
 import './ManualOfferStatusRenderer.css'
 
-export default (props : any) => {
+function ManualOfferStatusRenderer (props : any) {
 
 	const buttonClicked = () => {
 		props.checkAndUpdateOfferStatus(props.value);
@@ -13,3 +13,5 @@ export default (props : any) => {
 		</span>
 	);
 };
+
+export default ManualOfferStatusRenderer;
