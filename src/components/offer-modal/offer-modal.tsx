@@ -12,7 +12,8 @@ function OfferModal(props: any) {
 		id: '',
 		os: '',
 		mobileMarketingPlatforms: '',
-		redirects: ''
+		redirects: '',
+		affiliateStatus: ''
 	});
 
 	useEffect(() => {
@@ -26,7 +27,8 @@ function OfferModal(props: any) {
 					os: props.data.os_allow,
 					country: props.data.country_allow,
 					redirects: props.data.redirects,
-					mobileMarketingPlatforms: props.data.mobileMarketingPlatforms
+					mobileMarketingPlatforms: props.data.mobileMarketingPlatforms,
+					affiliateStatus: props.data.affiliateStatus
 				});
 				setRedirectUrls(urls);
 			});
@@ -45,6 +47,7 @@ function OfferModal(props: any) {
 				<div><strong>Country : </strong>{offer.country}</div>
 				<div><strong>Os : </strong>{offer.os}</div>
 				<div><strong>Redirects : </strong>{offer.redirects}</div>
+				<div><strong>Status : </strong>{offer.affiliateStatus}</div>
 				<div><strong>Mobile Marketing Platforms : </strong>{offer.mobileMarketingPlatforms.length === 0 ? 'Could not find the matches' : offer.mobileMarketingPlatforms }</div>
 				<h4>Urls</h4>
 				{
@@ -64,6 +67,7 @@ export interface Offer {
 	os: string;
 	redirects: string;
 	mobileMarketingPlatforms: string;
+	affiliateStatus: string;
 }
 
 export default OfferModal;

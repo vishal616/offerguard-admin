@@ -17,8 +17,10 @@ function OfferList() {
 			cellStyle: (params: any) => {
 				if (params.value === "FAILED") {
 					return { backgroundColor: "red" };
-				} else {
+				} else if (params.value === "SUCCESS") {
 					return { backgroundColor: "green" };
+				} else {
+					return { backgroundColor: "yellow" };
 				}
 			},
 			floatingFilter: true
@@ -48,6 +50,13 @@ function OfferList() {
 
 	useEffect( () => {
 		OfferService.getAllOffers().then(({data}) => {
+			data = data.map((offer: any) => {
+				if(!offer.affiliateStatus) {
+					offer.affiliateStatus = "PENDING";
+					return offer;
+				}
+				return offer;
+			});
 			setRowData(data);
 		})
 	}, []);
