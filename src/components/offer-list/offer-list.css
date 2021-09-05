@@ -8,3 +8,20 @@
 	height: 100%;
 	width: 100%;
 }
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.action-button {
+	margin: 5px;
+	background: red;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.action-button:hover {
+	cursor: pointer;
+	background: #950000;
+}

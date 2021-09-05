@@ -9,11 +9,14 @@ import FallBack from "../fallback/FallBack";
 import ManualOfferStatusRenderer from './ManualOfferStatusRenderer';
 import {toast} from "react-toastify";
 import ToastInjector from "../toast/ToastInjector";
+import StatsModal from "../stats/StatsModal";
 
 function OfferList() {
 	const [rowData, setRowData] = useState([]);
 	const [modalData, setModalData] = useState(null);
-	const [showLoader, setShowLoader] = useState(true);
+	const [showLoader, setShowLoader] = useState(true)
+	const [showStat, setShowStat] = useState(false);
+	const [showOffer, setShowOffer] = useState(false);
 
 	const checkAndUpdateOfferStatus = (offerId: string) => {
 		setShowLoader(true);
@@ -105,13 +108,27 @@ function OfferList() {
 
 	const openOfferModal = (offer: any) => {
 		setModalData(offer.data);
+		toggleOfferModal(true);
 	};
+
+	const toggleStatModal = (value: boolean) => {
+		setShowStat(value);
+	}
+
+	const toggleOfferModal = (value: boolean) => {
+		setShowOffer(value);
+	}
 
 	return (
 		<div className="offers">
 			<FallBack
 				showLoader={showLoader}
 			/>
+			<div style={!showLoader ? {display: 'flex'} : {display: 'none'}} className="actions" >
+				<button className="action-button" onClick={() => toggleStatModal(true)}>Check Stats</button>
+				<button className="action-button">Trigger Offer 18 job</button>
+				<button className="action-button">Trigger Mobrand job</button>
+			</div>
 			<div className="ag-theme-alpine offer-list" style={!showLoader ? {display: 'block'} : {display: 'none'}}>
 				<AgGridReact
 					columnDefs={columnDefs}
@@ -125,8 +142,14 @@ function OfferList() {
 				></AgGridReact>
 			</div>
 			<OfferModal
+				showOffer={showOffer}
 				data={modalData}
+				toggleOfferModal={toggleOfferModal}
 			></OfferModal>
+			<StatsModal
+				showStats={showStat}
+				toggleStatModal={toggleStatModal}
+			></StatsModal>
 			<ToastInjector/>
 		</div>
 	);

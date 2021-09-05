@@ -19,7 +19,7 @@ function OfferModal(props: any) {
 	});
 
 	useEffect(() => {
-		if(props.data) {
+		if(props.showOffer) {
 			setShowLoader(true);
 			RedirectUrlService.getAllRedirectUrlsForOffer(props.data.offerid).then(({data}) => {
 				const urls = data.map((data: any) => data.url);
@@ -39,13 +39,19 @@ function OfferModal(props: any) {
 		}
 	},[props]);
 
+	const toggleModal = (value: boolean) => {
+		props.toggleOfferModal(value);
+		setOpen(false);
+		setShowLoader(false);
+	}
+
 	return (
 		<div className="offer-modal">
 			<FallBack showLoader={showLoader}/>
 			<ReactModal
 				isOpen={open}
 			>
-				<i className="fa fa-times" aria-hidden="true" onClick={() => setOpen(false)}></i>
+				<i className="fa fa-times" aria-hidden="true" onClick={() => toggleModal(false)}></i>
 				<h2>Offer Redirections</h2>
 				<div><strong>Id : </strong>{offer.id}</div>
 				<div><strong>Name : </strong>{offer.name}</div>

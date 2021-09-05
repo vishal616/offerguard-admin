@@ -1,0 +1,8 @@
+i:hover {
+	cursor: pointer;
+}
+
+i {
+	position: absolute;
+	right: 40px;
+}
